@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/ciriarte/opinionated/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ciriarte/opinionated</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>First commit</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>log4net</tags>
+    <dependencies>
+      <dependency id="log4net" version="[2.0.3,2.1)" />
+    </dependencies>
+  </metadata>
+</package>
