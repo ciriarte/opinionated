@@ -21,12 +21,12 @@ namespace opinionated
     public class Opinionated
     {
         static
-        public void ConfigureLogging()
+        public void ConfigureLogging(String path = null)
         {
             var hierarchy = LogManager.GetRepository() as Hierarchy;
 
             ConfigureConsoleTarget(hierarchy);
-            ConfigureFileTarget(hierarchy);
+            ConfigureFileTarget(hierarchy, path);
             ConfigureEmailTarget(hierarchy);
 
             if (hierarchy != null) {
@@ -52,7 +52,7 @@ namespace opinionated
         }
 
         static
-        void ConfigureFileTarget(Hierarchy hierarchy)
+        void ConfigureFileTarget(Hierarchy hierarchy, String path = null)
         {
             var patternLayout = new PatternLayout { ConversionPattern = ConversionPattern };
             patternLayout.ActivateOptions();
@@ -63,8 +63,8 @@ namespace opinionated
                 RollingStyle = RollingFileAppender.RollingMode.Date,
                 MaxSizeRollBackups = 7,
                 File = Path.Combine(
-                    new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName,
-                    "logs", Environment.MachineName + ".log")
+                    new FileInfo(path ?? Assembly.GetExecutingAssembly().Location).DirectoryName,
+                    "logs", "today.log")
             };
 
             roller.ActivateOptions();
