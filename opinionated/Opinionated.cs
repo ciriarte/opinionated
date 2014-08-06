@@ -64,7 +64,7 @@ namespace opinionated
                 MaxSizeRollBackups = 7,
                 File = Path.Combine(
                     new FileInfo(path ?? Assembly.GetExecutingAssembly().Location).DirectoryName,
-                    "logs", "today.log")
+                    @"..\logs", "today.log")
             };
 
             roller.ActivateOptions();
