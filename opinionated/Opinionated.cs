@@ -23,20 +23,29 @@ namespace opinionated
         static
         public void ConfigureLogging(String path = null)
         {
-            var hierarchy = LogManager.GetRepository() as Hierarchy;
+            Configure()
+                .ConsoleTarget()
+                .EmailTarget()
+                .FileTarget(path)
+                .Done();
+        }
 
-            ConfigureConsoleTarget(hierarchy);
-            ConfigureFileTarget(hierarchy, path);
-            ConfigureEmailTarget(hierarchy);
+        static 
+        public Hierarchy TraceTarget(this Hierarchy hierarchy)
+        {
+            var patternLayout = new PatternLayout { ConversionPattern = ConversionPattern };
+            patternLayout.ActivateOptions();
 
-            if (hierarchy != null) {
-                hierarchy.Root.Level = Level.All;
-                hierarchy.Configured = true;
-            }
+            var trace = new AspNetTraceAppender { Layout = patternLayout };
+
+            trace.ActivateOptions();
+            hierarchy.Root.AddAppender(trace);
+
+            return hierarchy;
         }
 
         static
-        void ConfigureConsoleTarget(Hierarchy hierarchy)
+        public Hierarchy ConsoleTarget(this Hierarchy hierarchy)
         {
             if (Environment.UserInteractive) {
                 var patternLayout = new PatternLayout { ConversionPattern = ConversionPattern };
@@ -49,10 +58,12 @@ namespace opinionated
                 console.ActivateOptions();
                 hierarchy.Root.AddAppender(console);
             }
+
+            return hierarchy;
         }
 
         static
-        void ConfigureFileTarget(Hierarchy hierarchy, String path = null)
+        public Hierarchy FileTarget(this Hierarchy hierarchy, String path = null)
         {
             var patternLayout = new PatternLayout { ConversionPattern = ConversionPattern };
             patternLayout.ActivateOptions();
@@ -69,10 +80,12 @@ namespace opinionated
 
             roller.ActivateOptions();
             hierarchy.Root.AddAppender(roller);
+
+            return hierarchy;
         }
 
         static
-        void ConfigureEmailTarget(Hierarchy hierarchy)
+        public Hierarchy EmailTarget(this Hierarchy hierarchy)
         {
             var appSettings = ConfigurationManager.AppSettings;
 
@@ -97,6 +110,23 @@ namespace opinionated
             smtp.ActivateOptions();
 
             hierarchy.Root.AddAppender(smtp);
+
+            return hierarchy;
+        }
+
+        static
+        public Hierarchy Configure()
+        {
+            return LogManager.GetRepository() as Hierarchy;
+        }
+
+        static
+        public void Done(this Hierarchy hierarchy)
+        {
+            if (hierarchy == null) return;
+
+            hierarchy.Root.Level = Level.All;
+            hierarchy.Configured = true;
         }
 
         const String ConversionPattern = @"[%d %logger{1}] [%t] %-5p %m%n";

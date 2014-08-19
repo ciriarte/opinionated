@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/ciriarte/opinionated</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>First commit</releaseNotes>
+    <releaseNotes>Added chainable methods</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>log4net</tags>
     <dependencies>
