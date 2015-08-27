@@ -68,6 +68,8 @@ namespace opinionated
             var patternLayout = new PatternLayout { ConversionPattern = ConversionPattern };
             patternLayout.ActivateOptions();
 
+            var entryAssemblyName = Assembly.GetEntryAssembly().GetName().Name;
+
             var roller = new RollingFileAppender {
                 Layout = patternLayout,
                 AppendToFile = true,
@@ -75,7 +77,7 @@ namespace opinionated
                 MaxSizeRollBackups = 7,
                 File = Path.Combine(
                     new FileInfo(path ?? Assembly.GetExecutingAssembly().Location).DirectoryName,
-                    @"..\logs", "today.log")
+                    @"..\logs\" + entryAssemblyName, "today.log")
             };
 
             roller.ActivateOptions();
